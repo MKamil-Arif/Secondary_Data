@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Slow Rotating Image</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        .fxd-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -5%);
+            animation: spin 30s linear infinite; /* Slower speed */
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        @keyframes spin {
+            from {
+                transform: translate(-50%, -5%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -5%) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <img class="fxd-bg" src="https://fleekbiz.com/wp-content/uploads/2025/01/dispersion-glass-5-1-1.png" alt="Slow Rotating Image">
+</body>
+</html>

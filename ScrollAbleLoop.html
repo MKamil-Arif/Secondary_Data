@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Drag and Drop Containers</title>
+  <style>
+    .container {
+      width: 200px;
+      padding: 20px;
+      margin: 10px;
+      background-color: #f2f2f2;
+      border: 2px dashed #ccc;
+      cursor: move;
+    }
+    .dragging {
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" draggable="true">
+    <h2>Text 1</h2>
+  </div>
+  <div class="container" draggable="true">
+    <h2>Text 2</h2>
+  </div>
+  <div class="container" draggable="true">
+    <h2>Text 3</h2>
+  </div>
+
+  <script>
+    const containers = document.querySelectorAll('.container');
+
+    let draggedItem = null;
+
+    containers.forEach(container => {
+      container.addEventListener('dragstart', (e) => {
+        draggedItem = container;
+        setTimeout(() => container.classList.add('dragging'), 0);
+      });
+
+      container.addEventListener('dragend', () => {
+        container.classList.remove('dragging');
+        draggedItem = null;
+      });
+
+      container.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+
+      container.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (draggedItem && draggedItem !== container) {
+          const all = Array.from(document.querySelectorAll('.container'));
+          const draggedIndex = all.indexOf(draggedItem);
+          const dropIndex = all.indexOf(container);
+
+          if (draggedIndex < dropIndex) {
+            container.after(draggedItem);
+          } else {
+            container.before(draggedItem);
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .table-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+        .table-controls span {
+            margin: 0 10px;
+            cursor: pointer;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pagination-info {
+            font-size: 14px;
+        }
+        .pagination-nav {
+            display: flex;
+        }
+        .pagination-nav span {
+            margin-left: 10px;
+            cursor: pointer;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Users Data</h1>
+    <p>All Users will be display here</p>
+    
+    <div class="table-controls">
+        <span>Copy</span>
+        <span>Excel</span>
+        <span>PDF</span>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>4D001</td>
+                <td>Ghani</td>
+                <td>ghanidgaf@gmail.com</td>
+                <td>Admin</td>
+                <td>1st Floor</td>
+                <td>Edit</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>4D002</td>
+                <td>Saiman Khan</td>
+                <td>Saiman@gmail.com</td>
+                <td>Super User</td>
+                <td>2nd Floor</td>
+                <td>Edit</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>4D005</td>
+                <td>Rey Nesterio</td>
+                <td>Rey@onlyfans</td>
+                <td>User</td>
+                <td>1st Floor</td>
+                <td>Edit</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>4D006</td>
+                <td>UnderTaker</td>
+                <td>uder@gmail.com</td>
+                <td>Super User</td>
+                <td>2nd Floor</td>
+                <td>Edit</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>4D007</td>
+                <td>DeadLock</td>
+                <td>Dead@lock.com</td>
+                <td>Super User</td>
+                <td>2nd Floor</td>
+                <td>Edit</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>4D008</td>
+                <td>Sulvan SK</td>
+                <td>ksulyan@gmail.com</td>
+                <td>Super User</td>
+                <td>2nd Floor</td>
+                <td>Edit</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>4D009</td>
+                <td>Kami</td>
+                <td>k@gmail.com</td>
+                <td>User</td>
+                <td>1st Floor</td>
+                <td>Edit</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="pagination">
+        <div class="pagination-info">
+            Showing 1 to 7 of 7 entries
+        </div>
+        <div class="pagination-nav">
+            <span>Previous</span>
+            <span>Next</span>
+        </div>
+    </div>
+</body>
+</html>

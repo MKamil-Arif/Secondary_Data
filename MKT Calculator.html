@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MKT Calculator</title>
+  <style>
+    body {font-family: system-ui, sans-serif; margin: 2rem;}
+    textarea {width: 100%; min-height: 6rem; padding: .5rem;}
+    label {display: block; margin-top: 1rem;}
+    button {margin-top: 1rem; padding: .5rem 1.5rem; font-size: 1rem;}
+    .result {margin-top: 1.5rem; font-weight: 600;}
+  </style>
+</head>
+<body>
+
+  <h1>Mean Kinetic Temperature (MKT) Calculator</h1>
+
+  <label>
+    Temperature readings (comma- or space-separated):
+    <textarea id="temps"></textarea>
+  </label>
+
+  <label>
+    <input type="radio" name="scale" value="C" checked>
+    Input is in °C
+  </label>
+  <label>
+    <input type="radio" name="scale" value="K">
+    Input is in K
+  </label>
+
+  <button id="calcBtn">Calculate</button>
+
+  <div id="result" class="result"></div>
+
+  <script>
+    // Physical constants (J mol⁻¹ K⁻¹)
+    const R  = 8.314;
+    // Activation energy often assumed for pharmaceuticals (J mol⁻¹)
+    const DH = 83144;
+
+    function toKelvin(t, scale) {
+      return scale === 'C' ? t + 273.15 : t;
+    }
+
+    function mkt(tempsKelvin) {
+      const n = tempsKelvin.length;
+      const sumExp = tempsKelvin
+        .map(T => Math.exp(-DH / (R * T)))
+        .reduce((a, b) => a + b, 0);
+      const lnAvg = Math.log(sumExp / n);
+      return (-DH / R) / lnAvg;           // Kelvin
+    }
+
+    document.getElementById('calcBtn').onclick = () => {
+      const raw   = document.getElementById('temps').value.trim();
+      if (!raw) return alert('Please enter at least one temperature value.');
+
+      const scale = document.querySelector('input[name="scale"]:checked').value;
+
+      // Split by commas, spaces, or newlines → numbers
+      const temps = raw.split(/[\s,]+/)
+                       .map(Number)
+                       .filter(t => !isNaN(t));
+
+      if (temps.length === 0)
+        return alert('No valid numbers found.');
+
+      const tempsK = temps.map(t => toKelvin(t, scale));
+      const mktK   = mkt(tempsK);
+      const mktC   = mktK - 273.15;
+
+      document.getElementById('result').innerText =
+        `MKT = ${mktK.toFixed(2)} K  (${mktC.toFixed(2)} °C)`;
+    };
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+/* General size classes */
+.size-100 {
+  font-size: 100%;
+}
+
+.size-150 {
+  font-size: 150%;
+}
+
+.size-200 {
+  font-size: 200%;
+}
+
+/* Container for dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 20px;
+}
+
+/* Trigger text styling */
+.dropdown > span {
+  background-color: black;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.dropdown > span:hover {
+  background-color: #d0dce0;
+  color: black;
+}
+
+/* Dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  border-radius: 8px;
+  min-width: 180px;
+  padding: 10px 0;
+  margin-top: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  z-index: 1;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Show on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Dropdown list items */
+.dropdown-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-content li {
+  padding: 8px 20px;
+}
+
+.dropdown-content button {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #ecf0f1;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+  font-size: 14px;
+}
+
+.dropdown-content button:hover {
+  background-color: #d0dce0;
+}
+
+/* Simple fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
+
+<!-- HTML Structure -->
+<div class="dropdown">
+  <span><i class="fas fa-cogs"></i> Choose Size</span>
+  <div class="dropdown-content">
+    <ul>
+      <li><button onclick="changeSize(100)"><i class="fas fa-text-height"></i> Size 100</button></li>
+      <li><button onclick="changeSize(150)"><i class="fas fa-text-height"></i> Size 150</button></li>
+      <li><button onclick="changeSize(200)"><i class="fas fa-text-height"></i> Size 200</button></li>
+    </ul>
+  </div>
+</div>
+
+<div class="Container" id="box1">
+    <h1>Custom Size Page</h1>
+    <p>This page allows you to select a custom size for your content. Click the button above to choose a size.</p>
+    <p id="size_display_1">Selected Size: None</p>
+</div>
+
+<div class="Container" id="box2">
+    <h1>Custom Size Page</h1>
+    <p>This page allows you to select a custom size for your content. Click the button above to choose a size.</p>
+    <p id="size_display_2">Selected Size: None</p>
+</div>
+
+<script>
+function changeSize(size) {
+  const containers = document.querySelectorAll('.Container');
+
+  containers.forEach(container => {
+    container.classList.remove('size-100', 'size-150', 'size-200');
+
+    if (size === 100) container.classList.add('size-100');
+    if (size === 150) container.classList.add('size-150');
+    if (size === 200) container.classList.add('size-200');
+  });
+
+  // Update displayed text
+  document.getElementById('size_display_1').textContent = 'Selected Size: ' + size;
+  document.getElementById('size_display_2').textContent = 'Selected Size: ' + size;
+}
+</script>
+</body>
+</html>
