@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #2980b9;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --border: #bdc3c7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 20px 0;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card-icon.blue {
+            background: var(--secondary);
+        }
+
+        .card-icon.green {
+            background: var(--success);
+        }
+
+        .card-icon.orange {
+            background: var(--warning);
+        }
+
+        .card-icon.red {
+            background: var(--danger);
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .card-change {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .card-change.positive {
+            color: var(--success);
+        }
+
+        .card-change.negative {
+            color: var(--danger);
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        select, input {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .btn-outline:hover {
+            background: #f0f8ff;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-present {
+            background: #e6f7ee;
+            color: var(--success);
+        }
+
+        .status-absent {
+            background: #fde8e6;
+            color: var(--danger);
+        }
+
+        .status-late {
+            background: #fef5e6;
+            color: var(--warning);
+        }
+
+        .attendance-history {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination-info {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .page-btn:hover:not(.active) {
+            background: #f8f9fa;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .student-details {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .student-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 3rem;
+        }
+
+        .student-data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .data-item {
+            margin-bottom: 15px;
+        }
+
+        .data-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .data-value {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .attendance-chart {
+            height: 200px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+
+        .monthly-attendance {
+            margin-top: 25px;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .day-cell {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .day-present {
+            background: #e6f7ee;
+            color: var(--success);
+        }
+
+        .day-absent {
+            background: #fde8e6;
+            color: var(--danger);
+        }
+
+        .day-late {
+            background: #fef5e6;
+            color: var(--warning);
+        }
+
+        .day-holiday {
+            background: #f8f9fa;
+            color: var(--gray);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .student-data {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-user-graduate"></i>
+                    <h1>Student Attendance System</h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div>Admin User</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Students</a></li>
+                    <li><a href="#"><i class="fas fa-clipboard-list"></i> Attendance</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </aside>
+
+            <main class="content">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Total Students</div>
+                            <div class="card-icon blue">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">1,248</div>
+                        <div class="card-change positive">+5.2% from last month</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Present Today</div>
+                            <div class="card-icon green">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">1,156</div>
+                        <div class="card-change positive">92.6% Attendance</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Absent Today</div>
+                            <div class="card-icon red">
+                                <i class="fas fa-user-times"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">92</div>
+                        <div class="card-change negative">7.4% Absenteeism</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Late Today</div>
+                            <div class="card-icon orange">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">48</div>
+                        <div class="card-change negative">3.8% Late</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Student Attendance Records</h2>
+                        <button class="btn btn-primary" id="mark-attendance">
+                            <i class="fas fa-plus"></i> Mark Attendance
+                        </button>
+                    </div>
+
+                    <div class="filters">
+                        <div class="filter-group">
+                            <div class="filter-label">Class</div>
+                            <select id="class-filter">
+                                <option value="all">All Classes</option>
+                                <option value="10a">Grade 10-A</option>
+                                <option value="10b">Grade 10-B</option>
+                                <option value="11a">Grade 11-A</option>
+                                <option value="11b">Grade 11-B</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-label">Date</div>
+                            <input type="date" id="date-filter" value="2023-05-15">
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-label">Status</div>
+                            <select id="status-filter">
+                                <option value="all">All Status</option>
+                                <option value="present">Present</option>
+                                <option value="absent">Absent</option>
+                                <option value="late">Late</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-label">Search</div>
+                            <input type="text" id="search-student" placeholder="Student name or ID">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>Class</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>STU001</td>
+                                    <td>
+                                        <div class="student-info">
+                                            <div class="student-avatar">AJ</div>
+                                            <div>
+                                                <div>Alex Johnson</div>
+                                                <div class="attendance-history">92% Overall</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Grade 10-A</td>
+                                    <td>May 15, 2023</td>
+                                    <td><span class="status status-present">Present</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-details" data-id="STU001">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>STU002</td>
+                                    <td>
+                                        <div class="student-info">
+                                            <div class="student-avatar">MS</div>
+                                            <div>
+                                                <div>Maria Smith</div>
+                                                <div class="attendance-history">88% Overall</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Grade 10-A</td>
+                                    <td>May 15, 2023</td>
+                                    <td><span class="status status-present">Present</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-details" data-id="STU002">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>STU003</td>
+                                    <td>
+                                        <div class="student-info">
+                                            <div class="student-avatar">RW</div>
+                                            <div>
+                                                <div>Robert Williams</div>
+                                                <div class="attendance-history">76% Overall</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Grade 10-A</td>
+                                    <td>May 15, 2023</td>
+                                    <td><span class="status status-absent">Absent</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-details" data-id="STU003">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>STU004</td>
+                                    <td>
+                                        <div class="student-info">
+                                            <div class="student-avatar">SJ</div>
+                                            <div>
+                                                <div>Sarah Johnson</div>
+                                                <div class="attendance-history">95% Overall</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Grade 10-A</td>
+                                    <td>May 15, 2023</td>
+                                    <td><span class="status status-late">Late</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-details" data-id="STU004">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>STU005</td>
+                                    <td>
+                                        <div class="student-info">
+                                            <div class="student-avatar">DB</div>
+                                            <div>
+                                                <div>David Brown</div>
+                                                <div class="attendance-history">84% Overall</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Grade 10-A</td>
+                                    <td>May 15, 2023</td>
+                                    <td><span class="status status-present">Present</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-details" data-id="STU005">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <div class="pagination-info">Showing 1 to 5 of 1,248 entries</div>
+                        <div class="pagination-controls">
+                            <div class="page-btn active">1</div>
+                            <div class="page-btn">2</div>
+                            <div class="page-btn">3</div>
+                            <div class="page-btn">4</div>
+                            <div class="page-btn">5</div>
+                            <div class="page-btn">...</div>
+                            <div class="page-btn">25</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div class="modal" id="student-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Student Attendance Details</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="student-details">
+                    <div class="student-photo">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <h3 id="modal-student-name">Alex Johnson</h3>
+                        <p id="modal-student-id">Student ID: STU001</p>
+                        <p id="modal-student-class">Class: Grade 10-A</p>
+                    </div>
+                </div>
+
+                <div class="student-data">
+                    <div class="data-item">
+                        <div class="data-label">Overall Attendance</div>
+                        <div class="data-value" id="modal-overall-attendance">92%</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Present Days</div>
+                        <div class="data-value" id="modal-present-days">138</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Absent Days</div>
+                        <div class="data-value" id="modal-absent-days">12</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Late Days</div>
+                        <div class="data-value" id="modal-late-days">6</div>
+                    </div>
+                </div>
+
+                <div class="attendance-chart">
+                    [Attendance Chart Would Appear Here]
+                </div>
+
+                <div class="monthly-attendance">
+                    <h3>May 2023 Attendance</h3>
+                    <div class="month-grid">
+                        <div class="day-cell day-present">1</div>
+                        <div class="day-cell day-present">2</div>
+                        <div class="day-cell day-present">3</div>
+                        <div class="day-cell day-present">4</div>
+                        <div class="day-cell day-absent">5</div>
+                        <div class="day-cell day-holiday">6</div>
+                        <div class="day-cell day-holiday">7</div>
+                        <div class="day-cell day-present">8</div>
+                        <div class="day-cell day-present">9</div>
+                        <div class="day-cell day-late">10</div>
+                        <div class="day-cell day-present">11</div>
+                        <div class="day-cell day-present">12</div>
+                        <div class="day-cell day-present">13</div>
+                        <div class="day-cell day-holiday">14</div>
+                        <div class="day-cell day-holiday">15</div>
+                        <div class="day-cell day-present">16</div>
+                        <div class="day-cell day-present">17</div>
+                        <div class="day-cell day-present">18</div>
+                        <div class="day-cell day-present">19</div>
+                        <div class="day-cell day-absent">20</div>
+                        <div class="day-cell day-holiday">21</div>
+                        <div class="day-cell day-holiday">22</div>
+                        <div class="day-cell day-present">23</div>
+                        <div class="day-cell day-present">24</div>
+                        <div class="day-cell day-present">25</div>
+                        <div class="day-cell day-late">26</div>
+                        <div class="day-cell day-present">27</div>
+                        <div class="day-cell day-present">28</div>
+                        <div class="day-cell day-present">29</div>
+                        <div class="day-cell day-present">30</div>
+                        <div class="day-cell day-present">31</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('student-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const viewButtons = document.querySelectorAll('.view-details');
+
+        // Open modal when view button is clicked
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                // In a real application, you would fetch student data based on ID
+                // For this demo, we'll just open the modal with placeholder data
+                modal.style.display = 'flex';
+            });
+        });
+
+        // Close modal when X is clicked
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('search-student');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const studentName = row.querySelector('.student-info div:first-child').textContent.toLowerCase();
+                const studentId = row.cells[0].textContent.toLowerCase();
+                
+                if (studentName.includes(searchTerm) || studentId.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        const classFilter = document.getElementById('class-filter');
+        const statusFilter = document.getElementById('status-filter');
+
+        classFilter.addEventListener('change', applyFilters);
+        statusFilter.addEventListener('change', applyFilters);
+
+        function applyFilters() {
+            const classValue = classFilter.value;
+            const statusValue = statusFilter.value;
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const rowClass = row.cells[2].textContent.toLowerCase().replace(' ', '');
+                const rowStatus = row.cells[4].textContent.toLowerCase();
+                
+                const classMatch = classValue === 'all' || rowClass.includes(classValue);
+                const statusMatch = statusValue === 'all' || rowStatus.includes(statusValue);
+                
+                if (classMatch && statusMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Mark attendance button
+        document.getElementById('mark-attendance').addEventListener('click', function() {
+            alert('Redirecting to attendance marking page...');
+            // In a real application, this would navigate to the attendance marking page
+        });
+    </script>
+</body>
+</html>``
